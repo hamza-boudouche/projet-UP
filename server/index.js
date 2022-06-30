@@ -148,6 +148,7 @@ const closeSenderPCs = (socketID) => {
 const io = socketio.listen(server);
 
 io.sockets.on("connection", (socket) => {
+  console.log("client connected")
   socket.on("joinRoom", (data) => {
     try {
       let allUsers = getOtherUsersInRoom(data.id, data.roomID);

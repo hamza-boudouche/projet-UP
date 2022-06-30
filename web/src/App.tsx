@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import io from "socket.io-client";
 import Video from "./Components/Video";
 import { WebRTCUser } from "./types";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import Groupes from "Groupes";
 
 const config = {
   iceServers: [
@@ -276,23 +278,99 @@ const App = () => {
   ]);
 
   return (
-    <div>
-      <video
+    <BrowserRouter>
+      <div
         style={{
-          width: "70vw",
-          height: "70vh",
-          margin: 5,
-          backgroundColor: "black",
+          display: "flex",
+          flexDirection: "row",
         }}
-        muted
-        ref={localVideoRef}
-        autoPlay
-      />
-      <br />
-      {users.map((user, index) => (
-        <Video key={index} stream={user.stream} style={{}} />
-      ))}
-    </div>
+      >
+        <div
+          style={{
+            width: "20vw",
+            height: "100vh",
+            backgroundColor: "white",
+            borderRight: "1px solid grey",
+            boxShadow: "8px 0px 50px -18px rgba(0,0,0,0.81)",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              height: "10vh",
+              border: "1px solid black",
+            }}
+          >
+            logo
+          </div>
+          <div
+            style={{
+              height: "5vh",
+              borderBottom: "1px solid black",
+              padding: "1rem",
+            }}
+          >
+            <Link to="videosharing">Desktop sharing</Link>
+          </div>
+          <div
+            style={{
+              height: "5vh",
+              borderBottom: "1px solid black",
+              padding: "1rem",
+            }}
+          >
+            <Link to="groupes">Groupes</Link>
+          </div>
+        </div>
+        <div>
+          <div
+            style={{
+              backgroundColor: "#006FFF",
+              width: "80vw",
+              height: "10vh",
+              paddingLeft: "20px",
+            }}
+          >
+            <div
+              style={{
+                paddingTop: "20px",
+                fontSize: "25px",
+                color: "white",
+              }}
+            >
+              PresentBox
+            </div>
+          </div>
+
+          <Routes>
+            <Route path="/" element={<>hello</>} />
+            <Route
+              path="/videosharing"
+              element={
+                <>
+                  <video
+                    style={{
+                      width: "60vw",
+                      height: "60vh",
+                      margin: 5,
+                      backgroundColor: "black",
+                    }}
+                    muted
+                    ref={localVideoRef}
+                    autoPlay
+                  />
+                  <br />
+                  {users.map((user, index) => (
+                    <Video key={index} stream={user.stream} style={{}} />
+                  ))}
+                </>
+              }
+            />
+            <Route path="/groupes" element={<Groupes />} />
+          </Routes>
+        </div>
+      </div>
+    </BrowserRouter>
   );
 };
 
